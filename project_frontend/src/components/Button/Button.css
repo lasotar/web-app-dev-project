@@ -1,0 +1,11 @@
+.button {
+    box-sizing: border-box;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
+}
+
+.button:hover {
+    background-color: rgba(var(--primary-rgb), 0.9);
+}
