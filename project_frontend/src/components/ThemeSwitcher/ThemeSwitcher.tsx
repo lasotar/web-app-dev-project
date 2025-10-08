@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button } from "./Button";
 import "./ThemeSwitcher.css";
+import { Button } from "../Button/Button";
 
 export const ThemeSwitcher = () => {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");

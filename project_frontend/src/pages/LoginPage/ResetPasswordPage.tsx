@@ -3,48 +3,47 @@ import "./LoginPage.css";
 import { BasicCard, BasicCardContent, BasicCardHeader } from "../../components/BasicCard/BasicCard";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
-import { UseAuth } from "../../contexts/AuthContext";
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 }
 
-export const LoginPage: React.FC = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+// Uses the same CSS as login
+export const ResetPasswordPage: React.FC = () => {
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
-    const { login } = UseAuth();
 
     return (
         <div className="login-page">
             <BasicCard className="login-card">
                 <BasicCardHeader className="login-card-header">
                     <h2 className="login-title">
-                        Login
+                        Reset Password
                     </h2>
                 </BasicCardHeader>
                 <BasicCardContent>
                     <form onSubmit={handleSubmit} className="login-form">
                         <div className="form-field">
-                            <h3 className="form-label">Email</h3>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="your@email.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                                disabled={loading} />
-                        </div>
-                        <div className="form-field">
-                            <h3 className="form-label">Password</h3>
+                            <h3 className="form-label">Old Password</h3>
                             <Input
                                 id="password"
                                 type="password"
                                 placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={oldPassword}
+                                onChange={(e) => setOldPassword(e.target.value)}
+                                required
+                                disabled={loading}
+                                minLength={6} />
+                        </div>
+                        <div className="form-field">
+                            <h3 className="form-label">New Password</h3>
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="••••••••"
+                                value={newPassword}
+                                onChange={(e) => setNewPassword(e.target.value)}
                                 required
                                 disabled={loading}
                                 minLength={6} />
@@ -54,9 +53,8 @@ export const LoginPage: React.FC = () => {
                             type="submit"
                             className="submit-button"
                             disabled={loading}
-                            onClick={() => login()}
                         >
-                            {loading ? "Loading..." : "Sign In"}
+                            {loading ? "Loading..." : "Reset Password"}
                         </Button>
                     </form>
                 </BasicCardContent>

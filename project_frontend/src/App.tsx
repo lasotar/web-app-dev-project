@@ -4,6 +4,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute"
 import { ThemeSwitcher } from "./components/ThemeSwitcher/ThemeSwitcher"
 import { HomePage } from "./pages/HomePage/HomePage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
+import { ResetPasswordPage  } from "./pages/LoginPage/ResetPasswordPage"
 
 const App = () => (
     <BrowserRouter>
@@ -14,6 +15,14 @@ const App = () => (
                 element={
                     <ProtectedRoute>
                         <HomePage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/reset-password"
+                element={
+                    <ProtectedRoute>
+                        <ResetPasswordPage />
                     </ProtectedRoute>
                 }
             />
