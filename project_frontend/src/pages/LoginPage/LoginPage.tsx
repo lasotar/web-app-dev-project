@@ -4,6 +4,7 @@ import { BasicCard, BasicCardContent, BasicCardHeader } from "../../components/B
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { UseAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,9 +13,15 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 export const LoginPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, _] = useState(false);
 
-    const { login } = UseAuth();
+    const {login} = UseAuth();
+    const navigate = useNavigate();
+
+    const handleLogin = () => {
+        login();
+        navigate("/");
+    }
 
     return (
         <div className="login-page">
@@ -54,7 +61,7 @@ export const LoginPage: React.FC = () => {
                             type="submit"
                             className="submit-button"
                             disabled={loading}
-                            onClick={() => login()}
+                            onClick={handleLogin}
                         >
                             {loading ? "Loading..." : "Sign In"}
                         </Button>
