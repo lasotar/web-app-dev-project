@@ -15,7 +15,7 @@
 }
 
 .table-header tr {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgb(var(--secondary-rgb));
 }
 
 .table-body tr:last-child {
@@ -23,8 +23,8 @@
 }
 
 .table-footer {
-    border-top: 1px solid #e5e7eb;
-    background-color: #f9fafb;
+    border-top: 1px solid rgb(var(--secondary-rgb));
+    background-color: rgba(var(--primary-rgb), 0.05);
     font-weight: 500;
 }
 
@@ -33,18 +33,18 @@
 }
 
 .table-row {
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid rgb(var(--secondary-rgb));
     transition-property: background-color, border-color;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
 }
 
 .table-row:hover {
-    background-color: #f9fafb;
+    background-color: rgba(var(--primary-rgb), 0.05);
 }
 
 .table-row[data-state="selected"] {
-    background-color: #f1f5f9;
+    background-color: rgba(var(--primary-rgb), 0.1);
 }
 
 .table-head {
@@ -54,7 +54,7 @@
     text-align: left;
     vertical-align: middle;
     font-weight: 500;
-    color: #64748b;
+    color: var(--muted-foreground);
 }
 
 .table-head:has([role="checkbox"]) {
@@ -73,5 +73,5 @@
 .table-caption {
     margin-top: 1rem;
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--muted-foreground);
 }
