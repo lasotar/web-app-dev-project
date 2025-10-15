@@ -103,3 +103,12 @@
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

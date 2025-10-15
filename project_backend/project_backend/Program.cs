@@ -1,4 +1,7 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using project_backend.Data;
 using project_backend.Models;
 using project_backend.Services;
@@ -10,6 +13,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,9 +41,10 @@ builder.Services.AddCors(options =>
         policyBuilder =>
         {
             policyBuilder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+                .WithOrigins("http://localhost:5173")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials();
         });
 });
 
@@ -35,7 +58,8 @@ using (var scope = app.Services.CreateScope())
     // On first launch only
     if (!db.Users.Any())
     {
-        db.Users.Add(new User { Username = "test", Password = "password" }); // test user
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword("password");
+        db.Users.Add(new User { Email = "testUser@test.com", PasswordHash = hashedPassword, Role = "Admin" }); // test user
         db.SaveChanges();
     }
 }
@@ -47,6 +71,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

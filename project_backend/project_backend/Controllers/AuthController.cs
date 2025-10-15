@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project_backend.Dtos;
 using project_backend.Services;
@@ -18,23 +19,81 @@ namespace project_backend.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
         {
-            var user = await _authService.Login(userLoginDto);
+            var tokens = await _authService.Login(userLoginDto);
 
-            if (user == null)
+            if (tokens == null)
             {
-                return NotFound("Invalid credentials");
+                return Unauthorized("Invalid credentials");
             }
 
-            return Ok(user);
+            SetTokenCookies(tokens);
+
+            return Ok(new { message = "Login successful" });
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refresh-token"];
+            if (refreshToken == null)
+            {
+                return Unauthorized("Refresh token not found.");
+            }
+
+            var tokens = await _authService.RefreshToken(refreshToken);
+            if (tokens == null)
+            {
+                return Unauthorized("Invalid refresh token.");
+            }
+
+            SetTokenCookies(tokens);
+
+            return Ok(new { message = "Token refreshed" });
         }
 
         [HttpPost("logout")]
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
-            return Ok("Logout endpoint");
+            var refreshToken = Request.Cookies["refresh-token"];
+            if (refreshToken != null)
+            {
+                await _authService.Logout(refreshToken);
+            }
+            
+            Response.Cookies.Delete("access-token");
+            Response.Cookies.Delete("refresh-token");
+
+            return Ok(new { message = "Logout successful" });
+        }
+
+        private void SetTokenCookies(TokenDto tokens)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+            };
+
+            Response.Cookies.Append("access-token", tokens.AccessToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddMinutes(15)
+            });
+
+            Response.Cookies.Append("refresh-token", tokens.RefreshToken, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None,
+                Expires = DateTime.UtcNow.AddDays(7)
+            });
         }
 
         [HttpPost("reset-password")]
+        [Authorize]
         public IActionResult ResetPassword()
         {
             return Ok("Reset password endpoint");
