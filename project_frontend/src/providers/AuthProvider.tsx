@@ -1,34 +1,22 @@
-import { useState, useEffect } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useState, useEffect } from 'react';
+import { AuthContext  } from '../contexts/AuthContext';
+import { authService } from '../services/auth.service';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isAuth, setIsAuth] = useState(localStorage.getItem('isAuth') === 'true');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    useEffect(() => {
-        const handleStorageChange = () => {
-            setIsAuth(localStorage.getItem('isAuth') === 'true');
-        };
+  useEffect(() => {
+    const loadingSubscription = authService.isLoading$.subscribe(setIsLoading);
 
-        window.addEventListener('storage', handleStorageChange);
+    return () => {
+      loadingSubscription.unsubscribe();
+    };
+  }, []);
 
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
-    }, []);
+  return (
+    <AuthContext.Provider value={{ isLoading, login: authService.login, logout: authService.logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-    const login = () => {
-        setIsAuth(true);
-        localStorage.setItem('isAuth', 'true');
-    }
-
-    const logout = () => {
-        setIsAuth(false);
-        localStorage.removeItem('isAuth');
-    }
-
-    return (
-        <AuthContext.Provider value={{ isAuth, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}

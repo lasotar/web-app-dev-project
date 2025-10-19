@@ -1,0 +1,74 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: var(--card-background);
+    border-bottom: 1px solid rgb(var(--secondary-rgb));
+    color: var(--card-foreground);
+}
+
+.navbar-apptitle a {
+    color: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-switcher {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0.5rem !important;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+}
+
+.user-menu {
+    position: relative;
+}
+
+.user-menu-button {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0.5rem !important;
+    color: var(--foreground);
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: var(--card-background);
+    border: 1px solid rgb(var(--secondary-rgb));
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    color: var(--foreground);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(var(--primary-rgb), 0.1);
+}

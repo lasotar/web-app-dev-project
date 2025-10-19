@@ -8,6 +8,7 @@
 }
 
 .table {
+    margin-top: 2rem;
     width: 100%;
     caption-side: bottom;
     font-size: 0.875rem;
@@ -47,6 +48,13 @@
     background-color: rgba(var(--primary-rgb), 0.1);
 }
 
+.filter-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
 .table-head {
     height: 3rem;
     padding-left: 1rem;
@@ -74,4 +82,74 @@
     margin-top: 1rem;
     font-size: 0.875rem;
     color: var(--muted-foreground);
+}
+
+/* === Filter Styles === */
+.filter-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.filter-input,
+.filter-select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgb(var(--secondary-rgb));
+    background-color: var(--background);
+    color: var(--foreground);
+    border-radius: 6px;
+    font-size: 0.875rem;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px var(--ring);
+}
+
+/* === Table Action Button Styles === */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.table-action-button {
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.edit-button {
+    background-color: transparent;
+    border-color: rgb(var(--secondary-rgb));
+    color: var(--foreground);
+}
+
+.edit-button:hover {
+    background-color: rgba(var(--secondary-rgb), 0.2);
+}
+
+.save-button {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.save-button:hover {
+    opacity: 0.9;
+}
+
+.cancel-button {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--muted-foreground);
+}
+
+.cancel-button:hover {
+    background-color: rgba(var(--secondary-rgb), 0.2);
 }

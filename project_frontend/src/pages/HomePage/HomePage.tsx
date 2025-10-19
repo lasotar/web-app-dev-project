@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navbar } from "../../components/Navbar/Navbar";
 import { Table } from "../../components/Table/Table";
 import "./HomePage.css";
 
@@ -26,6 +27,7 @@ export const HomePage = () => {
 
     return (
         <div className="home-wrapper">
+            <Navbar />
             <Table
                 className="table"
                 colNames={colNames}

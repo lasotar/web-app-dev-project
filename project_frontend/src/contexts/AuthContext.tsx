@@ -1,9 +1,15 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
+import type { Observable } from 'rxjs';
 
-interface AuthContextType {
-    isAuth: boolean;
-    login: () => void;
-    logout: () => void;
+export interface User {
+  id: string;
+  name: string;
+}
+
+export interface AuthContextType {
+  isLoading: boolean;
+  login: (password: string, username?: string, email?: string) => void;
+  logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -11,7 +17,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 export const UseAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error('useAuth must be used within a AuthProvider');
+        throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
 }

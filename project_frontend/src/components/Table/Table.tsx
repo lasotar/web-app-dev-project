@@ -118,17 +118,22 @@ export const Table = <T extends DataObject>({
                                             </td>
                                         ))}
                                         {showActions &&
-                                            <td className="table-cell">
-                                        {isEditing ? (
-                                            <>
-                                                <button onClick={handleSave}>Save</button>
-                                                <button onClick={() => onSetEditingRowId(null)}>Cancel</button>
-                                            </>
-                                        ) : (
-                                            <button onClick={() => onSetEditingRowId(item[rowKey])}>Edit</button>
-                                        )}
-                                        </td>
-                                        }
+                                            <td className="table-cell table-actions">
+                                                                                    {isEditing ? (
+                                                                                        <>
+                                                                                            <button onClick={handleSave} className="table-action-button save-button">
+                                                                                                Save
+                                                                                            </button>
+                                                                                            <button onClick={() => onSetEditingRowId(null)} className="table-action-button cancel-button">
+                                                                                                Cancel
+                                                                                            </button>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <button onClick={() => onSetEditingRowId(item[rowKey])} className="table-action-button edit-button">
+                                                                                            Edit
+                                                                                        </button>
+                                                                                    )}
+                                                                                </td>                                        }
                                     </tr>
                                 );
                             })

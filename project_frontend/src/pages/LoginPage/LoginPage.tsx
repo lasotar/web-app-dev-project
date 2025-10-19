@@ -3,8 +3,8 @@ import "./LoginPage.css";
 import { BasicCard, BasicCardContent, BasicCardHeader } from "../../components/BasicCard/BasicCard";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
-import { UseAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { createRequest } from "../../services/api.service";
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,12 +15,20 @@ export const LoginPage: React.FC = () => {
     const [password, setPassword] = useState("");
     const [loading, _] = useState(false);
 
-    const {login} = UseAuth();
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        login();
-        navigate("/");
+        console.log("login")
+
+        createRequest('POST', 'Auth/login', {
+            email: email,
+            password: password
+        },
+        ).subscribe({
+            next: (_) => {
+                navigate("/")
+            }
+        });
     }
 
     return (
