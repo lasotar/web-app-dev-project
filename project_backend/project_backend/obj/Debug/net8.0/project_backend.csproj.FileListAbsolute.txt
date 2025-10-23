@@ -30,7 +30,6 @@
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.project_backend.props
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/staticwebassets.pack.json
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/scopedcss/bundle/project_backend.styles.css
-/home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/project_backend.csproj.CopyComplete
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/project_backend.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/refint/project_backend.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/project_backend.pdb
@@ -112,3 +111,4 @@
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /home/lasotar/stud/web_app/project_backend/project_backend/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/home/lasotar/stud/web_app/project_backend/project_backend/obj/Debug/net8.0/project_backend.csproj.CopyComplete

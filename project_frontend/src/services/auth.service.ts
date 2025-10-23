@@ -1,23 +1,17 @@
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { ajax, AjaxError } from 'rxjs/ajax';
-import { tap, catchError, switchMap, take, filter } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode';
-import { ENDPOINTS } from '../config/api';
+import { createRequest } from './api.service';
 
 class AuthService {
-    private accessTokenSubject = new BehaviorSubject<string | null>(null);
-    private isLoadingSubject = new BehaviorSubject<boolean>(true);
-    private inflightRefresh$: Observable<string> | null = null;
-
-    public isLoading$ = this.isLoadingSubject.asObservable();
-
-    login = () => {
+    login = (email: string, password: string) => {
+        return createRequest('POST', 'Auth/login', {
+            email: email,
+            password: password
+        },
+        )
     }
 
     logout = () => {
-    }
-
-    refreshToken = () => {
+        return createRequest('POST', 'Auth/logout');
     }
 }
 

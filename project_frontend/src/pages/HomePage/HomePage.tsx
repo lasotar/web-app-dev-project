@@ -1,44 +1,121 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Navbar } from "../../components/Navbar/Navbar";
 import { Table } from "../../components/Table/Table";
 import "./HomePage.css";
-
-const initialData = [
-    {id: 1, name: "abc", surname: "xyz"},
-    {id: 2, name: "abc", surname: "xyz"},
-    {id: 3, name: "abc", surname: "xyz"},
-    {id: 4, name: "abc", surname: "xyz"},
-    {id: 5, name: "abc", surname: "xyz"},
-    {id: 6, name: "def", surname: "xyz"}
-];
-
-const colNames: (keyof typeof initialData[0])[] = ["id", "name", "surname"];
+import { getTableData, updateTableRow } from "../../services/table.service";
 
 export const HomePage = () => {
-    const [tableData, setTableData] = useState(initialData);
-    const [editingRowId, setEditingRowId] = useState<number | string | null>(null);
+    const [userTableData, setUserTableData] = useState<Record<string, any>[]>([]);
+    const [showUserTable, setShowUserTable] = useState<boolean>(false);
+    const [itemTableData, setItemTableData] = useState<Record<string, any>[]>([]);
+    const [showItemTable, setShowItemTable] = useState<boolean>(false);
+    const [companyTableData, setCompanyTableData] = useState<Record<string, any>[]>([]);
+    const [showCompanyDataTable, setShowCompanyDataTable] = useState<boolean>(false);
+    
+    const [userEditingRowId, setUserEditingRowId] = useState<number | string | null>(null);
+    const [itemEditingRowId, setItemEditingRowId] = useState<number | string | null>(null);
+    const [companyEditingRowId, setCompanyEditingRowId] = useState<number | string | null>(null);
 
-    const handleUpdateRow = (updatedRow: typeof initialData[0]) => {
-        setTableData(currentData =>
-            currentData.map(row => (row.id === updatedRow.id ? updatedRow : row))
-        );
-        setEditingRowId(null);
+    const handleUpdateRow = (tableName: string, updatedRow: Record<string, any>) => {
+        updateTableRow(tableName, updatedRow.id, updatedRow).subscribe({
+            next: () => {
+                switch (tableName) {
+                    case "Users":
+                        setUserTableData(currentData =>
+                            currentData.map(row => (row.id === updatedRow.id ? updatedRow : row))
+                        );
+                        setUserEditingRowId(null);
+                        break;
+                    case "Items":
+                        setItemTableData(currentData =>
+                            currentData.map(row => (row.id === updatedRow.id ? updatedRow : row))
+                        );
+                        setItemEditingRowId(null);
+                        break;
+                    case "CompanyData":
+                        setCompanyTableData(currentData =>
+                            currentData.map(row => (row.id === updatedRow.id ? updatedRow : row))
+                        );
+                        setCompanyEditingRowId(null);
+                        break;
+                }
+            },
+            error: (error) => {
+                console.error(`Failed to update row in ${tableName}`, error);
+                switch (tableName) {
+                    case "Users": setUserEditingRowId(null); break;
+                    case "Items": setItemEditingRowId(null); break;
+                    case "CompanyData": setCompanyEditingRowId(null); break;
+                }
+            }
+        });
     };
+
+    useEffect(() => {
+        getTableData("Users").subscribe({
+            next: (data) => {
+                setUserTableData(data);
+                setShowUserTable(true);
+            },
+        })
+
+        getTableData("Items").subscribe({
+            next: (data) => {
+                setItemTableData(data);
+                setShowItemTable(true);
+            },
+        })
+
+        getTableData("CompanyData").subscribe({
+            next: (data) => {
+                setCompanyTableData(data);
+                setShowCompanyDataTable(true);
+            },
+        })
+    }, []);
 
     return (
         <div className="home-wrapper">
             <Navbar />
-            <Table
-                className="table"
-                colNames={colNames}
-                data={tableData}
-                rowKey="id"
-                editingRowId={editingRowId}
-                onSetEditingRowId={setEditingRowId}
-                onUpdateRow={handleUpdateRow}
-                showActions={true}
-                showFilters={true}
-            />
+            { showUserTable &&
+                <Table
+                    title="Users"
+                    className="table"
+                    data={userTableData}
+                    rowKey="id"
+                    editingRowId={userEditingRowId}
+                    onSetEditingRowId={setUserEditingRowId}
+                    onUpdateRow={(row) => handleUpdateRow("Users", row)}
+                    showActions={true}
+                    showFilters={true}
+                />
+            }
+            { showItemTable &&
+                <Table
+                    title="Items"
+                    className="table"
+                    data={itemTableData}
+                    rowKey="id"
+                    editingRowId={itemEditingRowId}
+                    onSetEditingRowId={setItemEditingRowId}
+                    onUpdateRow={(row) => handleUpdateRow("Items", row)}
+                    showActions={true}
+                    showFilters={true}
+                />
+            }
+            { showCompanyDataTable &&
+                <Table
+                    title="Company Data"
+                    className="table"
+                    data={companyTableData}
+                    rowKey="id"
+                    editingRowId={companyEditingRowId}
+                    onSetEditingRowId={setCompanyEditingRowId}
+                    onUpdateRow={(row) => handleUpdateRow("CompanyData", row)}
+                    showActions={true}
+                    showFilters={true}
+                />
+            }
         </div>
     );
 };

@@ -4,7 +4,7 @@ import { BasicCard, BasicCardContent, BasicCardHeader } from "../../components/B
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { createRequest } from "../../services/api.service";
+import { UseAuth } from "../../contexts/AuthContext";
 
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,14 +17,10 @@ export const LoginPage: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const handleLogin = () => {
-        console.log("login")
 
-        createRequest('POST', 'Auth/login', {
-            email: email,
-            password: password
-        },
-        ).subscribe({
+    const auth = UseAuth();
+    const handleLogin = () => {
+        auth.login(email, password).subscribe({
             next: (_) => {
                 navigate("/")
             }

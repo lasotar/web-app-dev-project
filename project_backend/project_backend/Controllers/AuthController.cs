@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using project_backend.Dtos;
@@ -52,6 +53,7 @@ namespace project_backend.Controllers
         }
 
         [HttpPost("logout")]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             var refreshToken = Request.Cookies["refresh-token"];
@@ -65,16 +67,11 @@ namespace project_backend.Controllers
 
             return Ok(new { message = "Logout successful" });
         }
-
+        
+        [HttpGet]
+        
         private void SetTokenCookies(TokenDto tokens)
         {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-            };
-
             Response.Cookies.Append("access-token", tokens.AccessToken, new CookieOptions
             {
                 HttpOnly = true,
@@ -98,5 +95,20 @@ namespace project_backend.Controllers
         {
             return Ok("Reset password endpoint");
         }
+
+        [HttpGet("role")]
+        [Authorize]
+        public IActionResult GetRole()
+        {
+            var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            if (role == null)
+            { 
+                return Unauthorized("Role not found in token.");
+            }
+
+            return Ok(new { role });
+        }
+        
     }
 }

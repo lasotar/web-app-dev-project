@@ -59,14 +59,19 @@ namespace project_backend.Services
             return new TokenDto { AccessToken = newAccessToken, RefreshToken = newRefreshToken };
         }
 
-        public async Task<bool> Logout(string refreshToken)
+        public async Task Logout(string refreshToken)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
-            if (user == null) return false;
+            if (user == null) return;
 
             user.RefreshToken = null;
             await _context.SaveChangesAsync();
-            return true;
+        }
+
+        public async Task<string?> GetRole(string refreshToken)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+            return user?.Role;
         }
 
         private string CreateAccessToken(User user)

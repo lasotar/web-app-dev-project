@@ -1,13 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "../Button/Button";
 import "./Navbar.css";
 import { AiOutlineSun, AiOutlineMoon, AiOutlineUser } from 'react-icons/ai';
+import { useNavigate } from "react-router-dom";
+import { UseAuth } from "../../contexts/AuthContext";
 
 export const Navbar = () => {
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
     const dropDownRef = useRef<HTMLDivElement>(null);
+
+    const auth = UseAuth();
+
+    const handleLogout = () => {
+        auth.logout().subscribe();
+        navigate("/login");
+    }
 
     useEffect(() => {
         document.documentElement.setAttribute("data-theme", theme);
@@ -46,7 +56,7 @@ export const Navbar = () => {
                     {isDropdownOpen && (
                         <div className="dropdown-menu">
                             <a href="/reset-password" className="dropdown-item">Change Password</a>
-                            <button className="dropdown-item" onClick={() => {}}>Logout</button>
+                            <button className="dropdown-item" onClick={() => handleLogout()}>Logout</button>
                         </div>
                     )}
                 </div>

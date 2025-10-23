@@ -1,7 +1,6 @@
-import { Observable, throwError, of } from 'rxjs';
+import { throwError, of } from 'rxjs';
 import { ajax, type AjaxRequest, AjaxError } from 'rxjs/ajax';
-import { switchMap, catchError, take } from 'rxjs/operators';
-import { authService } from './auth.service';
+import { switchMap, catchError } from 'rxjs/operators';
 
 const API_BASE_URL = 'http://localhost:8000/api/';
 
@@ -19,8 +18,6 @@ const tryRequest = <T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, b
         responseType: 'json'
     };
 
-    console.log("creating a request...")
-
     return ajax<T>(request).pipe(
         switchMap(response => {
             return of(response.response);
@@ -35,9 +32,9 @@ export const createRequest = <T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', url:
     return tryRequest<T>(method, url, body).pipe(
         catchError((error: AjaxError) => {
             if (error.status === 401) {
-                tryRequest('POST', 'Auth/refresh-token').subscribe();
-
-                return tryRequest<T>(method, url, body);
+                return tryRequest('POST', 'Auth/refresh-token').pipe(
+                    switchMap(() => tryRequest<T>(method, url, body))
+                );
             }
             return throwError(error);
         })

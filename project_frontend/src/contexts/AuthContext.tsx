@@ -7,9 +7,8 @@ export interface User {
 }
 
 export interface AuthContextType {
-  isLoading: boolean;
-  login: (password: string, username?: string, email?: string) => void;
-  logout: () => void;
+  login: (email: string, password: string ) => Observable<unknown>;
+  logout: () => Observable<unknown>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
